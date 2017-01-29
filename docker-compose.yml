@@ -1,0 +1,20 @@
+version: '2'
+services:
+  amor: #Main
+    build: .
+    links:
+      - redis
+      - mongo
+    ports:
+      - 80:4567
+
+  redis:
+    image: "redis:alpine"
+
+  mongo:
+    image: "mongo:latest"
+    volumes:
+      - ./resources/data/db:/data/db
+      - ./resources/backup:/var/mongodb/backup
+    ports:
+       - 27017:27017
