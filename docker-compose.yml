@@ -1,12 +1,12 @@
 version: '2'
 services:
-  amor: #Main
-    build: .
-    links:
-      - redis
-      - mongo
-    ports:
-      - 80:4567
+#  amor: #Main
+#    build: .
+#    links:
+#      - redis
+#      - mongo
+#    ports:
+#      - 80:4567
 
   redis:
     image: "redis:alpine"

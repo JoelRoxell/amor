@@ -1,4 +1,4 @@
-package com.kodjevlar;
+package com.kodjevlar.enums;
 
 public enum ENTITY {
     IMAGE,
