@@ -23,7 +23,7 @@ public class Mongo {
         Mongo.morphia.mapPackage("com.kodjevlar.models");
 
         Mongo.datastore = Mongo.morphia.createDatastore(
-                new MongoClient(),
+                new MongoClient("mongo", 27017),
                 "like_example"
         );
 

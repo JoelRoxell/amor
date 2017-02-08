@@ -1,11 +1,9 @@
 package com.kodjevlar.controllers;
 
 import com.kodjevlar.utils.Mongo;
-import com.kodjevlar.enums.ENTITY;
 import com.kodjevlar.models.Like;
 import com.kodjevlar.models.User;
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.Datastore;
 import spark.Request;
 import spark.Response;
 

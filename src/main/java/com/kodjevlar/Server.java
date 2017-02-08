@@ -22,7 +22,7 @@ public class Server {
 
         after(((request, response) -> {
             // Always return JSON.
-            response.header("Content-Type", "application/json");
+            // response.header("Content-Type", "application/json");
         }));
 
         String contentRoute = "/amor/content-item";
