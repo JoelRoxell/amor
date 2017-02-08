@@ -3,27 +3,51 @@ package com.kodjevlar.utils;
 import com.kodjevlar.daos.UserDAO;
 import com.kodjevlar.models.User;
 import com.mongodb.MongoClient;
+import jdk.internal.dynalink.MonomorphicCallSite;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
+import javax.activation.DataSource;
+
 public class Mongo {
-    private Morphia morphia;
-    public Datastore datastore;
-    public UserDAO userDAO;
+    private static Morphia morphia;
+    private static Datastore datastore;
+    private static UserDAO userDAO;
 
-    public Mongo init() {
-        this.morphia = new Morphia();
-        this.morphia.mapPackage("com.kodjevlar");
+    /**
+     * Instantiate a new mongodb connection, map data models to storage using Morphia.
+     * @return Mongo
+     */
+    public static Datastore getConnection() {
+        Mongo.morphia = new Morphia();
+        Mongo.morphia.mapPackage("com.kodjevlar.models");
 
-        this.datastore = this.morphia.createDatastore(
+        Mongo.datastore = Mongo.morphia.createDatastore(
                 new MongoClient(),
                 "like_example"
         );
 
-        datastore.ensureIndexes();
+        Mongo.datastore.ensureIndexes();
+        Mongo.userDAO = new UserDAO(User.class, Mongo.datastore);
 
-        this.userDAO = new UserDAO(User.class, this.datastore);
+        return datastore;
+    }
 
-        return this;
+    /**
+     * @return Datastore
+     */
+    public static Datastore getDatastore() {
+        if (Mongo.datastore == null) {
+            Mongo.getConnection();
+        }
+
+        return Mongo.datastore;
+    }
+
+    /*
+     * @return userDAO
+     */
+    public static UserDAO getUserDAO() {
+        return Mongo.userDAO;
     }
 }

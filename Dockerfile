@@ -1,4 +1,6 @@
-FROM java:8
+FROM openjdk:9
+
+ARG version
 
 RUN apt-get update
 RUN apt-get install -y maven
@@ -7,11 +9,10 @@ WORKDIR /usr/src/amor/
 
 # Prepare by downloading dependencies
 ADD pom.xml /usr/src/amor/pom.xml
-RUN ["mvn", "dependency:resolve"]
-RUN ["mvn", "verify"]
 
-ADD src /usr/src/amor/
+ADD . /usr/src/amor/
 RUN ["mvn", "package"]
 
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","amor.jar"]
+EXPOSE 8000
+
+ENTRYPOINT ["java","-jar","target/amor-0.1.0-jar-with-dependencies.jar"]

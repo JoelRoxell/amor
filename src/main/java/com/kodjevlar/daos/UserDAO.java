@@ -3,6 +3,7 @@ package com.kodjevlar.daos;
 import com.kodjevlar.models.User;
 import com.kodjevlar.interfaces.UserDAOI;
 
+import com.kodjevlar.utils.Mongo;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;

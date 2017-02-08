@@ -10,12 +10,6 @@ import spark.Request;
 import spark.Response;
 
 public class LikeCtrl {
-    Mongo mongo;
-
-    public LikeCtrl() {
-        this.mongo = new Mongo().init();
-    }
-
     public String getLikes(Request req, Response res ) {
         return "Returning likes";
     }
@@ -31,7 +25,7 @@ public class LikeCtrl {
         like = new Like();
         User u = new User();
 
-        User user = this.mongo.userDAO.getUserById(new ObjectId(userId));
+        User user = Mongo.getUserDAO().getUserById(new ObjectId(userId));
 
         return user.getId().toString();
     }

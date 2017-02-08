@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
 
 import java.util.ArrayList;
 
@@ -14,16 +15,14 @@ import java.util.ArrayList;
 public class Like {
     @Id
     private ObjectId id;
-
-    private User user;
-
+    @Reference
     private ContentItem contentItem;
 
     public Like() {}
 
     public Like(User user, ContentItem contentItem) {
         super();
-        this.user = user;
+
         this.contentItem = contentItem;
     }
 
