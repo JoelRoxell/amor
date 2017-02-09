@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class ContentItemRunner extends AmorConsumer implements Runnable {
-    protected final static String CREATE_CONTAINER_TOPIC = "amor_create_container";
-    protected final static String DELETE_CONTAINER_TOPIC = "amor_delete_container";
+    public final static String CREATE_CONTAINER_TOPIC = "amor_create_container";
+    public final static String DELETE_CONTAINER_TOPIC = "amor_delete_container";
 
     public ContentItemRunner() {
         super();
@@ -34,11 +34,11 @@ public class ContentItemRunner extends AmorConsumer implements Runnable {
                 if (records.count() > 0) {
                     Iterator it = records.iterator();
 
-                    if(it.hasNext()) {
+                    while(it.hasNext()) {
                         ConsumerRecord record = (ConsumerRecord) it.next();
 
                         this.printRecord(record);
-                        System.out.print(record.toString());
+                        System.out.println(record.toString());
                         this.createContentItem((String)record.value());
                     }
                 }
@@ -53,8 +53,7 @@ public class ContentItemRunner extends AmorConsumer implements Runnable {
 
     private void createContentItem(String meta) {
         try {
-            Gson parser = new Gson();
-            Object item  = parser.fromJson(meta, ContentItem.class);
+            Object item  = this.parser.fromJson(meta, ContentItem.class);
 
             Mongo.getDatastore().save(item);
         } catch(Exception err) {

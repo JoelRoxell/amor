@@ -1,16 +1,11 @@
 package com.kodjevlar.consumers;
 
+import com.google.gson.Gson;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.errors.WakeupException;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AmorConsumer {
@@ -20,12 +15,12 @@ public abstract class AmorConsumer {
     protected final KafkaConsumer consumer;
     // Kafka topics
     protected final static String SERVICE_NAME = "amor-service";
-    protected final static String LIKE_TOPIC = "amor_on_like";
-    protected final static String UNLIKE_TOPIC = "amor_off_like";
     protected final static String AUTH_PRIVATE_KEY_= "heimdall_recieve_pk";
     protected long threadId;
+    protected Gson parser = new Gson();
 
     public AmorConsumer() {
+        // Set consumer properties.
         Properties props = new Properties();
         props.put("bootstrap.servers", "kafka:9092"); // TODO: set by ENV host:port
         props.put("group.id", SERVICE_NAME);
@@ -38,13 +33,13 @@ public abstract class AmorConsumer {
         this.consumer = new KafkaConsumer(props);
     }
 
-    // Shutdown hook which can be called from a separate thread
+    // Shutdown hook which can be called from a separate thread.
     protected void shutdown() {
         closed.set(true);
         consumer.wakeup();
     }
 
     public void printRecord(ConsumerRecord record) {
-        System.out.format("[thread: %s] topic: %s, value: %s, offset: %s, time: %s \n", this.threadId, record.topic(), record.value(), record.offset(), record.timestamp());
+        System.out.format("[thread: %s] topic: %s, key: %s, value: %s, offset: %s, time: %s \n", this.threadId, record.topic(), record.key(), record.value(), record.offset(), record.timestamp());
     }
 }

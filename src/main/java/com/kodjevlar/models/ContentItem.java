@@ -5,6 +5,7 @@ import com.kodjevlar.utils.Json;
 import com.kodjevlar.utils.Mongo;
 import com.kodjevlar.utils.ObjectIdSerializer;
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
@@ -19,7 +20,7 @@ public class ContentItem {
 
     public HashMap meta;
 
-    @Reference
+    @Embedded
     private ArrayList<Like> likes;
 
     public ContentItem() {

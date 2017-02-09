@@ -1,6 +1,7 @@
 package com.kodjevlar;
 
 import com.kodjevlar.consumers.ContentItemRunner;
+import com.kodjevlar.consumers.LikeRunner;
 import com.kodjevlar.controllers.ContentItemCtrl;
 import com.kodjevlar.controllers.LikeCtrl;
 import com.kodjevlar.middleware.Auth;
@@ -45,6 +46,9 @@ public class Server {
 
         // Kafka thread-consumers
         ContentItemRunner ct = new ContentItemRunner();
-        ct.run();
+        LikeRunner lr = new LikeRunner();
+
+        new Thread(lr).start();
+        new Thread(ct).start();
     }
 }

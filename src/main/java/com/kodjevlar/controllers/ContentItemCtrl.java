@@ -2,7 +2,9 @@ package com.kodjevlar.controllers;
 
 import com.kodjevlar.models.ContentItem;
 import com.kodjevlar.models.JSONResponse;
+import com.kodjevlar.producers.ContainerProducer;
 import com.kodjevlar.utils.Mongo;
+import com.sun.xml.internal.ws.api.server.Container;
 import spark.Request;
 import spark.Response;
 
@@ -15,13 +17,13 @@ public class ContentItemCtrl {
         return item.toJSON();
     }
 
+    // This method is only used as an producer trigger example.
     public String createContentItem(Request req, Response res) {
         ContentItem ci = new ContentItem();
-        ContentItem ci1 = new ContentItem();
 
-        Mongo.getDatastore().save(ci);
+        new ContainerProducer().send(ci.toJSON());
 
-        return ci.toJSON();
+        return "OK";
     }
 
     public String removeContentItem(Request req, Response res) {
