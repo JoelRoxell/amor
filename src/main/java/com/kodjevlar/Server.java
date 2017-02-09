@@ -1,5 +1,6 @@
 package com.kodjevlar;
 
+import com.kodjevlar.consumers.ContentItemRunner;
 import com.kodjevlar.controllers.ContentItemCtrl;
 import com.kodjevlar.controllers.LikeCtrl;
 import com.kodjevlar.middleware.Auth;
@@ -25,6 +26,7 @@ public class Server {
             // response.header("Content-Type", "application/json");
         }));
 
+
         String contentRoute = "/amor/content-item";
         String likeRoute = "/amor/like";
 
@@ -41,6 +43,8 @@ public class Server {
         // Health check
         get("/amor/status", likeCtrl::getStatus);
 
-        // KafkaConsumerRunner kafkaConsumer = new KafkaConsumerRunner();
+        // Kafka thread-consumers
+        ContentItemRunner ct = new ContentItemRunner();
+        ct.run();
     }
 }

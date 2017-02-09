@@ -11,6 +11,7 @@
 - [Dependencies](#dependencies)
 - [API](#api)
 	- [Create Like](#create-like)
+	- [Create ContentItem](#create-content-item)
 - [Development](#development)
 	- [Prerequisites](#prerequisites)
 	- [Setup](#setup)
@@ -26,7 +27,7 @@
 - Redis
 
 ## API
-This service provides a JSON REST API.
+This service provides a Kafka/JSON REST API.
 
 ### Create Like
 **POST /like**
@@ -54,6 +55,14 @@ HTTP 400 - *Severity input invalid*
 { "message": "invalid request body" }
 ```
 
+### Create Container
+Kafka topic: `amor_create_container`
+
+**value**
+```json
+{ "meta": { "createdBy": "kafka" } }
+```
+
 ### Add User Like
 
 ### Remove User Like
@@ -65,6 +74,7 @@ HTTP 400 - *Severity input invalid*
 ### User
 
 ### Like
+
 
 ## Development
 ### Prerequisites

@@ -1,30 +1,23 @@
-FROM ubuntu:16.04
-
+FROM openjdk:8-jdk
 RUN apt-get update
-
-RUN apt-get install software-properties-common -y
-RUN add-apt-repository ppa:webupd8team/java -y
-
-RUN apt-get update
-
-RUN echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-RUN apt install oracle-java8-installer -y
 RUN apt-get install -y maven
+
+ARG VERSION
 
 WORKDIR /usr/src/amor/
 
-COPY . /usr/src/amor/
-# Prepare by downloading dependencies
-ADD pom.xml /usr/src/amor/pom.xml
+COPY pom.xml .
 
-ADD ./target/amor-0.1.0-jar-with-dependencies.jar /usr/src/amor/target/amor.jar
+COPY src ./src/
 
+# Create jar
 RUN ["mvn", "package"]
+
+RUN update-java-alternatives --set java-1.8.0-openjdk-amd64
+RUN java -version
+
+RUN mv "./target/amor-${VERSION}-jar-with-dependencies.jar" "./target/amor.jar"
 
 EXPOSE 8000
 
-RUN  ls -l /usr/src/amor
-
-RUN java -version
-
-ENTRYPOINT ["java","-jar","target/amor.jar"]
+ENTRYPOINT ["java","-jar", "./target/amor.jar"]
